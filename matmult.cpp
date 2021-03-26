@@ -51,6 +51,12 @@ int main(int argc, char *argv[])
     if(numThreads > u) // if we have more threads than rows, limit the to one thread per row
         numThreads = u;
 
+if (u < 0 || v < 0 || w < 0 || numThreads < 0) // make sure that  valid arguments are provided
+    {
+        cout << "Please enter a positive number for u, v, w, and numThreads\n";
+        exit(0);
+    }
+
     outputMat.resize(u); // allocate u*w sized 2d vector for the output, intialize the values to 0 so that we can add products to each entry
     for (size_t i = 0; i < u; ++i) 
     {
@@ -78,7 +84,11 @@ int main(int argc, char *argv[])
     {
         for (size_t j = 0; j < v; ++j) 
         {
-            if1 >> inputMat1[i][j]; 
+            if(!(if1 >> inputMat1[i][j]))
+              {
+              cout << "Failed to read from input1";
+              exit(0);
+              } 
         }
     }
     if1.close();
@@ -87,8 +97,12 @@ int main(int argc, char *argv[])
     for (size_t i = 0; i < v; ++i) 
     {
         for (size_t j = 0; j < w; ++j) 
-        {        
-            if2 >> inputMat2[i][j]; 
+        {    
+          if(!(if2 >> inputMat2[i][j]))
+          {
+            cout << "Failed to read from input2";
+            exit(0);
+          }
         }
     }
     if2.close();
